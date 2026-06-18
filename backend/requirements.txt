@@ -1,0 +1,11 @@
+python-dotenv
+fastapi
+uvicorn
+sqlalchemy
+alembic
+pydantic
+python-jose
+passlib
+bcrypt
+pwdlib
+langchain-google-genai
