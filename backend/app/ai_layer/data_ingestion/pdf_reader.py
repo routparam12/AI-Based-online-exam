@@ -1,12 +1,27 @@
-import fitz
+from langchain_community.document_loaders import PDFPlumberLoader, DirectoryLoader
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 
-def read_pdf(file_path: str):
+loader = DirectoryLoader(
+    "../../data",
+    glob="**/*.pdf",
+    loader_cls=PDFPlumberLoader
+)
 
-    text = ""
+splitter = RecursiveCharacterTextSplitter(
+    chunk_size=1500,
+    chunk_overlap=300
+)
 
-    pdf = fitz.open(file_path)
+documents = loader.load()
 
-    for page in pdf:
-        text += page.get_text()
+class TextChunker:
+    @staticmethod
+    def chunk_documents(document):
+        text_splitter = RecursiveCharacterTextSplitter(
+            chunk_size=1500,
+            chunk_overlap=300
+        )
+        return text_splitter.split_documents(document)
 
-    return text
+if __name__ == "__main__":
+    print(documents)
