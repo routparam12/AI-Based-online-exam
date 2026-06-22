@@ -11,7 +11,8 @@ def get_llm():
         max_output_tokens=4096,
     )
 
-model = get_llm()
 
-result = model.invoke("hello worked in python")
-print(result.content)
+if __name__ == "__main__":
+    model = get_llm()
+    result = model.invoke("hello worked in python")
+    print(result.content)
