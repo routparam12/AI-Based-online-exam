@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException
 
 from app.schemas.question_request import QuestionGenerationRequest
 from app.ai_layer.agent.question_generation_agent import QuestionGenerationAgent
-from app.ai_layer.vectorstore.chroma_store import get_embedding_model
+from app.ai_layer.vectorstore.load_vector_store import load_vector_store
 
 router = APIRouter(
     prefix="/exam",
@@ -19,7 +19,7 @@ async def generate_questions(
 
     try:
 
-        vector_store = get_embedding_model()
+        vector_store = load_vector_store()
 
         questions = await agent.generate_questions(
             vectorstore=vector_store,

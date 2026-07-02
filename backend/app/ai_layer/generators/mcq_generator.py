@@ -1,4 +1,4 @@
-from ai_layer.prompts.mcq_prompt import MCQ_PROMPT
+from ai_layer.prompts.question_generation import MCQ_PROMPT
 
 class MCQGenerator:
 
