@@ -7,3 +7,9 @@ class MCQGenerator:
         count
     ):
         pass
+
+    DIFFICULTY = {
+        "easy": "Easy",
+        "medium": "Medium",
+        "hard": "Hard"
+    }

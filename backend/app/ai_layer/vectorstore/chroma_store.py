@@ -1,20 +1,15 @@
+# app/ai_layer/vectorstore/chroma_store.py
 import logging
-
 from langchain_chroma import Chroma
-from matplotlib import path
-
-from ai_layer.embeddings.text_splitter import chunk_documents
 
 logger = logging.getLogger(__name__)
-
 
 def create_vector_store(
     chunks,
     embedding_model
 ):
-    """
-    Create Chroma vector database.
-    """
+    logger.info("ChromaDB data storing...")
+
 
     vector_store = Chroma.from_documents(
         documents=chunks,
@@ -28,6 +23,11 @@ def create_vector_store(
 
     return vector_store
 
-if __name__ == "__main__":
-    
-    create_vector_store(chunk_documents())
+
+def get_vector_store(embedding_model):
+    return Chroma(
+        persist_directory="./chroma_db",
+        embedding_function=embedding_model
+    )
+
+
