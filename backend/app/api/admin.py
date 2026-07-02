@@ -1,10 +1,19 @@
-from fastapi import APIRouter, Depends, HTTPException,FastAPI
+from fastapi import APIRouter, File, UploadFile
 
-router = APIRouter()
+from app.services.Admin.upload_service import upload_pdf_service
+
+router = APIRouter(
+    prefix="/admin",
+    tags=["Admin"]
+)
 
 
-@router.get("/admin")
-async def get_admin():
-    return {
-        "admin": ["me as admin"]
-    }
+@router.post("/upload-pdf")
+async def upload_pdf(
+    file: UploadFile = File(...)
+):
+
+    return await upload_pdf_service(file)
+
+#if __name__ == "__main__":
+    
