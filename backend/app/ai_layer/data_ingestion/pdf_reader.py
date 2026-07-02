@@ -1,3 +1,5 @@
+# app/ai_layer/data_ingestion/pdf_reader.py
+
 import logging
 import warnings
 from ai_layer.embeddings.text_splitter import chunk_documents

@@ -3,14 +3,19 @@ class Retriever:
     def get_context(
         self,
         vectorstore,
-        query
+        query,
+        k=5
     ):
 
         docs = vectorstore.similarity_search(
-            query,
-            k=5
+            query=query,
+            k=k
         )
 
-        return "\n".join(
-            [doc.page_content for doc in docs]
+        context = "\n\n".join(
+            doc.page_content for doc in docs
         )
+
+        return context
+
+

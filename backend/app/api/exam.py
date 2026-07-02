@@ -1,0 +1,41 @@
+from fastapi import APIRouter, HTTPException
+
+from app.schemas.question_request import QuestionGenerationRequest
+from app.ai_layer.agent.question_generation_agent import QuestionGenerationAgent
+from app.ai_layer.vectorstore.chroma_store import get_embedding_model
+
+router = APIRouter(
+    prefix="/exam",
+    tags=["Exam"]
+)
+
+agent = QuestionGenerationAgent()
+
+
+@router.post("/generate")
+async def generate_questions(
+    request: QuestionGenerationRequest
+):
+
+    try:
+
+        vector_store = get_embedding_model()
+
+        questions = await agent.generate_questions(
+            vectorstore=vector_store,
+            query=request.query,
+            difficulty=request.difficulty,
+            count=request.count
+        )
+
+        return {
+            "success": True,
+            "questions": questions
+        }
+
+    except Exception as e:
+
+        raise HTTPException(
+            status_code=500,
+            detail=str(e)
+        )

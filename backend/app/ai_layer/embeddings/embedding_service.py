@@ -1,42 +1,35 @@
 # app/ai_layer/embeddings/embedding_service.py
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from dotenv import load_dotenv
+
 from ai_layer.embeddings.text_splitter import chunk_documents
+from ai_layer.data_ingestion.pdf_reader import load_documents
 
 load_dotenv()
 
-# print(os.getenv("GEMINI_API_KEY"))
+
 
 embedding_model = GoogleGenerativeAIEmbeddings(
             model="gemini-embedding-2",
-
         )
 
 def create_embeddings(chunks):
-    """
-    Generate embeddings from chunked documents.
-    """
+    texts = [chunk.page_content for chunk in chunks]
+    return embedding_model.embed_documents(texts=texts)
 
-    texts = [
-        chunk.page_content
-        for chunk in chunks
-    ]
 
-    vectors = embedding_model.embed_documents(
-        texts=texts
+
+def get_embedding_model():
+    return GoogleGenerativeAIEmbeddings(
+        model="models/embedding-001"
     )
-
-    return vectors
-
-
-
-# print(len(vector))
 
 if __name__ == "__main__":
-    documents = create_embeddings(
-        chunks=[
+    print("--- Pipeline Started ---")
 
-        ]
-    )
+    documents = load_documents()
+    chunks = chunk_documents(documents)
+    vectors = create_embeddings(chunks)
+    print(vectors)
 
 
